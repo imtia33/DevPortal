@@ -40,19 +40,11 @@ function NestedTabSidebar({ state, descriptors, navigation }) {
         backgroundColor: theme.secondTabBackground,
         borderRightWidth: 1,
         borderRightColor: borderColor,
-        borderTopLeftRadius: widthAnim.interpolate({
-          inputRange: [0, isDesktop ? 280 : width * 0.85],
-          outputRange: [0, 24],
-          extrapolate: "clamp",
-        }),
+        borderTopLeftRadius:  24,
         ...(!isDesktop && {
-          borderBottomLeftRadius: widthAnim.interpolate({
-            inputRange: [0, isDesktop ? 280 : width * 0.85],
-            outputRange: [0, 24],
-            extrapolate: "clamp",
-          }),
+          borderBottomLeftRadius: 24,
         }),
-        // Enhanced shadow
+        
         shadowColor: shadowColor,
         shadowOffset: {
           width: 4,
@@ -91,7 +83,7 @@ function NestedTabSidebar({ state, descriptors, navigation }) {
         />
         
         <View style={{ alignItems: 'center' }}>
-          {/* Icon with subtle glow effect */}
+          
           <View
             style={{
               width: 48,
@@ -377,9 +369,9 @@ export default function ExploreLayout() {
           }}
         />
         <Tabs.Screen
-          name="browse"
+          name="profile"
           options={{
-            title: "Explore",
+            title: "Profile",
           }}
         />
       </Tabs>
