@@ -291,10 +291,7 @@ export default function Layout() {
     }
   }, [isDesktop, showTabBar])
 
-  // Debug log for showTabBar state
-  useEffect(() => {
-    console.log('showTabBar changed:', showTabBar, 'isDesktop:', isDesktop)
-  }, [showTabBar, isDesktop])
+  
 
   const handleHover = (label, index, yPosition) => {
     setHoverInfo({ label, index, yPosition })
@@ -363,16 +360,16 @@ export default function Layout() {
       {/* Always visible header bar */}
       <View
         style={{
-          height: height * 0.05,
+          height: showTabBar?height * 0.05:height * 0.07,
           backgroundColor: theme.firstTabBackground,
           zIndex: 1000,
           flexDirection: 'row',
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: isDesktop?'center':'flex-start',
           position: 'relative',
+          
         }}
       >
-        {/* 👈 Centered DevPortal Logo */}
         {isDesktop && (
           <View
             style={{
@@ -399,6 +396,31 @@ export default function Layout() {
                 DevPortal
               </Text>
             </View>
+          </View>
+        )}
+        {!isDesktop && !showTabBar && (
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              paddingLeft:10,
+              
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => setShowTabBar(true)}
+              style={{
+                borderRadius: 20,
+                backgroundColor: 'rgba(0,0,0,0.08)',
+                marginRight: 12,
+                padding: 4,
+              }}
+            >
+              <MaterialIcons name="arrow-back" size={24} color={theme.opposite} />
+            </TouchableOpacity>
+            <Text style={{ fontSize: 18, fontWeight: '600', color: theme.opposite }}>
+              Back
+            </Text>
           </View>
         )}
 

@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, useWindowDimensions, BackHandler, ScrollView, FlatList } from 'react-native';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect,useState } from 'react';
 import { TabBarContext } from '../../../context/TabBarContext';
 import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,6 +11,18 @@ const Browse = () => {
   const { width } = useWindowDimensions();
   const isDesktop = width >= 768;
   const { showTabBar, setShowTabBar } = useContext(TabBarContext);
+  const [numColumns, setNumColumns] = useState(1);
+
+  const onLayout = (event) => {
+    const containerWidth = event.nativeEvent.layout.width;
+    const itemWidth = isDesktop ? 350 : 280; // Smaller for mobile
+    const padding = 8;
+    const gap = 4;
+    
+    const availableWidth = containerWidth - padding;
+    const columns = Math.floor((availableWidth + gap) / (itemWidth + gap));
+    setNumColumns(Math.max(1, columns));
+  };
 
   useEffect(() => {
     const backAction = () => {
@@ -43,33 +55,22 @@ const Browse = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.screenBackground, borderTopWidth: 1, borderTopColor: theme.borderTopColor }}>
-      {!isDesktop && (
-          <View style={{ flexDirection: 'row', alignItems: 'center',  paddingHorizontal: 16,paddingTop:10,paddingBottom:5 ,borderBottomWidth:1,borderBottomColor:theme.borderTopColor}}>
-            <TouchableOpacity
-              onPress={() => setShowTabBar(true)}
-              style={{ marginRight: 12, padding: 6, borderRadius: 20, backgroundColor: 'rgba(0,0,0,0.08)' }}
-            >
-              <MaterialIcons name="arrow-back" size={24} color={theme.opposite} />
-            </TouchableOpacity>
-            <Text style={{ fontSize: 18, fontWeight: '600',color:theme.opposite }}>Browse</Text>
-            
-          </View>
-        )}
+    <View onLayout={onLayout} style={{ flex: 1, backgroundColor: theme.screenBackground, borderTopWidth: 1, borderTopColor: theme.borderTopColor }}>
+      
       
         
-        <FlatList
-          data={Array.from({ length: 1 }).map((_, idx) => item)}
-          renderItem={({ item }) => <ShowCaseItem project={item} />}
-          keyExtractor={(item, idx) => idx.toString()}
-          contentContainerStyle={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            gap: 24,
-            justifyContent: 'flex-start',
-            padding: isDesktop ? 24 : 5,
-          }}
-        />
+      <FlatList
+        data={Array.from({ length: 10 }).map((_, idx) => item)}
+        renderItem={({ item }) => <ShowCaseItem project={item} />}
+        numColumns={numColumns}
+        key={numColumns} 
+        keyExtractor={(item, idx) => idx.toString()}
+        contentContainerStyle={{
+          padding: isDesktop?24:4,
+          gap: 24,
+        }}
+        columnWrapperStyle={numColumns > 1 ? { gap: 24 } : undefined}
+      />
       
     </View>
   );
