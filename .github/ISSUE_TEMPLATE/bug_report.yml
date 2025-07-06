@@ -1,5 +1,5 @@
-name: Bug Report
-description: File a bug report.
+name: 🐛 Bug Report
+description: Tell us about this bug in details.
 title: "[Bug]: "
 labels: ["bug", "triage"]
 projects: ["octo-org/1", "octo-org/44"]
@@ -13,18 +13,33 @@ body:
   - type: input
     id: contact
     attributes:
-      label: Contact Details
+      label: Contact Details (optional)
       description: How can we get in touch with you if we need more info?
       placeholder: ex. email@example.com
     validations:
       required: false
   - type: textarea
-    id: what-happened
+    id: Reproduction-steps
     attributes:
-      label: What happened?
+      label: Reproduction steps
+      description: Tell us how did you triggered this.
+      placeholder: When I ...
+    validations:
+      required: true
+  - type: textarea
+    id: Expected-behavior
+    attributes:
+      label: Expected behavior
       description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
+      placeholder: It should ...
+    validations:
+      required: true
+    - type: textarea
+    id: Actual-behavior
+    attributes:
+      label: Actual behavior
+      description: What actually happened?
+      placeholder: It ...
     validations:
       required: true
   - type: dropdown
