@@ -1,109 +1,64 @@
-name: 🐛 Bug report
-description: Create a report to help us improve. Markdown supported in text areas.
-title: "[BUG] "
-labels:
-  - bug
+name: Bug Report
+description: File a bug report.
+title: "[Bug]: "
+labels: ["bug", "triage"]
+projects: ["octo-org/1", "octo-org/44"]
+assignees:
+  - octocat
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
   - type: input
-    id: title
+    id: contact
     attributes:
-      label: Issue title
-      description: Brief summary of the bug
-      placeholder: "Ex: Crash when clicking 'Save'"
-      required: true
-
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: false
   - type: textarea
-    id: description
+    id: what-happened
     attributes:
-      label: Describe the bug
-      description: A clear and concise description of what the bug is.
-      placeholder: |
-        Ex:
-        The app crashes when I click the save button after editing a profile.
+      label: What happened?
+      description: Also tell us, what did you expect to happen?
+      placeholder: Tell us what you see!
+      value: "A bug happened!"
+    validations:
       required: true
-
-  - type: textarea
-    id: steps_to_reproduce
-    attributes:
-      label: To Reproduce
-      description: Steps to reproduce the behavior. List them step by step.
-      placeholder: |
-        1. Go to '...'
-        2. Click on '...'
-        3. Scroll down to '...'
-        4. See error
-      required: true
-
-  - type: textarea
-    id: expected_behavior
-    attributes:
-      label: Expected behavior
-      description: A clear description of what you expected to happen.
-      placeholder: "Ex: The app should save the profile without crashing."
-      required: true
-
-  - type: textarea
-    id: screenshots
-    attributes:
-      label: Screenshots
-      description: If applicable, add screenshots to help explain your problem.
-      placeholder: "Paste image URLs or markdown ![alt text](url)"
-
   - type: dropdown
-    id: os
+    id: version
     attributes:
-      label: Desktop OS
-      description: Select your operating system (if applicable).
+      label: Version
+      description: What version of our software are you running?
       options:
-        - Windows
-        - macOS
-        - Linux
-        - Other / N/A
-
-  - type: input
-    id: browser
-    attributes:
-      label: Browser (desktop)
-      description: E.g. Chrome, Firefox, Safari
-      placeholder: "Ex: Chrome 103.0"
-
-  - type: dropdown
-    id: device
-    attributes:
-      label: Smartphone Device
-      description: Select your smartphone device (if applicable).
-      options:
-        - iPhone
-        - Android Phone
-        - Other / N/A
-
-  - type: input
-    id: mobile_os
-    attributes:
-      label: Smartphone OS
-      description: E.g. iOS 15.4, Android 12
-      placeholder: ""
-
-  - type: input
-    id: mobile_browser
-    attributes:
-      label: Smartphone Browser
-      description: E.g. Safari, Chrome, Stock browser
-      placeholder: ""
-
-  - type: textarea
-    id: additional_context
-    attributes:
-      label: Additional context
-      description: Add any other context about the problem here.
-      placeholder: ""
-
-  - type: checkbox
-    id: consent
-    attributes:
-      label: Consent to share bug report publicly
-      description: I agree that this bug report and its content can be publicly visible.
+        - 1.0.2 (Default)
+        - 1.0.3 (Edge)
+      default: 0
+    validations:
       required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on?
+      multiple: true
       options:
-        - I agree
-
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com). 
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
