@@ -1,0 +1,109 @@
+name: 🐛 Bug report
+description: Create a report to help us improve. Markdown supported in text areas.
+title: "[BUG] "
+labels:
+  - bug
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Issue title
+      description: Brief summary of the bug
+      placeholder: "Ex: Crash when clicking 'Save'"
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+      placeholder: |
+        Ex:
+        The app crashes when I click the save button after editing a profile.
+      required: true
+
+  - type: textarea
+    id: steps_to_reproduce
+    attributes:
+      label: To Reproduce
+      description: Steps to reproduce the behavior. List them step by step.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. See error
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected behavior
+      description: A clear description of what you expected to happen.
+      placeholder: "Ex: The app should save the profile without crashing."
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem.
+      placeholder: "Paste image URLs or markdown ![alt text](url)"
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Desktop OS
+      description: Select your operating system (if applicable).
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Other / N/A
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser (desktop)
+      description: E.g. Chrome, Firefox, Safari
+      placeholder: "Ex: Chrome 103.0"
+
+  - type: dropdown
+    id: device
+    attributes:
+      label: Smartphone Device
+      description: Select your smartphone device (if applicable).
+      options:
+        - iPhone
+        - Android Phone
+        - Other / N/A
+
+  - type: input
+    id: mobile_os
+    attributes:
+      label: Smartphone OS
+      description: E.g. iOS 15.4, Android 12
+      placeholder: ""
+
+  - type: input
+    id: mobile_browser
+    attributes:
+      label: Smartphone Browser
+      description: E.g. Safari, Chrome, Stock browser
+      placeholder: ""
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here.
+      placeholder: ""
+
+  - type: checkbox
+    id: consent
+    attributes:
+      label: Consent to share bug report publicly
+      description: I agree that this bug report and its content can be publicly visible.
+      required: true
+      options:
+        - I agree
+
