@@ -22,7 +22,7 @@ body:
     id: Reproduction-steps
     attributes:
       label: Reproduction steps
-      description: Tell us how did you triggered this.
+      description: Tell us how did you trigger this.
       placeholder: When I ...
     validations:
       required: true
@@ -34,7 +34,7 @@ body:
       placeholder: It should ...
     validations:
       required: true
-    - type: textarea
+  - type: textarea
     id: Actual-behavior
     attributes:
       label: Actual behavior
