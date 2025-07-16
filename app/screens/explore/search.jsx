@@ -24,7 +24,7 @@ const Search = () => {
   }, [showTabBar])
 
   return (
-    <View style={{ backgroundColor: theme.screenBackground, height: '100%', width: '100%', borderTopWidth: 1, borderTopColor: theme.borderTopColor }}>
+    <View style={{ backgroundColor: theme.firstTabBackground, height: '100%', width: '100%', borderTopWidth: 1, borderTopColor: theme.borderTopColor }}>
       <SafeAreaView>
         
         

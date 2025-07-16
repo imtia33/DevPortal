@@ -16,6 +16,8 @@ import RotatingText from '../componants/RotatingText';
 import { Ionicons, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import FeaturesSection from "../componants/FeaturesSection";
 import Footer from '../componants/FooterNote';
+import { login } from "../backend/appwrite";
+import { router } from 'expo-router';
 
 const { width } = Dimensions.get('window');
 const isDesktop = width >= 1024;
@@ -34,6 +36,18 @@ export default function HomeScreen() {
     'Showcase Your Skills',
     'Learn from Others',
   ];
+
+  // Fix: loginWithGithub handles navigation internally, so don't navigate here
+  const handleLogin = async () => {
+    try {
+      const res = await login();
+      if(res){
+        router.replace('/screens');
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#0A0A0A' }}>
@@ -60,14 +74,14 @@ export default function HomeScreen() {
         </View>
         
         
-        <TouchableOpacity style={{ paddingHorizontal: 20, paddingVertical: 10, backgroundColor: '#FD366E', borderRadius: 8 }}>
+        <TouchableOpacity onPress={handleLogin} style={{ paddingHorizontal: 20, paddingVertical: 10, backgroundColor: '#FD366E', borderRadius: 8 }}>
           <Text style={{ fontSize: 16, fontWeight: '600', color: '#FFFFFF' }}>Get Started</Text>
         </TouchableOpacity>
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ paddingVertical: isDesktop ? 120 : 80, paddingHorizontal: isDesktop ? 48 : 20, alignItems: 'center' }}>
-          <View style={{ maxWidth: 1200, alignSelf: 'center' }}>
+          <View style={{ maxWidth: 1200, alignSelf: 'center',alignItems:'center' }}>
             <Text style={{ fontSize: isDesktop ? 56 : isMobile ? 36 : 48, fontWeight: '800', color: '#FFF', textAlign: isDesktop ? 'left' : 'center', marginBottom: 24 }}>
               Build your developer{'\n'}
               <Text style={{ color: '#FF6B6B' }}>knowledge</Text>
@@ -88,11 +102,11 @@ export default function HomeScreen() {
               Join the community where code meets collaboration.
             </Text>
             <View style={{ flexDirection: isMobile ? 'column' : 'row', gap: 16, alignItems: 'center' }}>
-              <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#FF6B6B', paddingHorizontal: 32, paddingVertical: 16, borderRadius: 12 }}>
+              <TouchableOpacity onPress={handleLogin} style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#FF6B6B', paddingHorizontal: 32, paddingVertical: 16, borderRadius: 12 }}>
                 <Text style={{ fontSize: 18, fontWeight: '600', color: '#FFF' }}>Start Showcasing</Text>
                 <Ionicons name="arrow-forward" size={20} color="#fff" style={{ marginLeft: 8 }} />
               </TouchableOpacity>
-              <TouchableOpacity style={{ paddingHorizontal: 32, paddingVertical: 16, borderRadius: 12, borderWidth: 1, borderColor: '#333' }}>
+              <TouchableOpacity onPress={()=>{router.replace('/screens')}} style={{ paddingHorizontal: 32, paddingVertical: 16, borderRadius: 12, borderWidth: 1, borderColor: '#333' }}>
                 <Text style={{ fontSize: 18, fontWeight: '500', color: '#FFF' }}>Browse Projects</Text>
               </TouchableOpacity>
             </View>
@@ -134,7 +148,7 @@ export default function HomeScreen() {
             <Text style={{ fontSize: isDesktop ? 40 : 32, fontWeight: '700', color: '#FFF', textAlign: 'center', marginBottom: 16 }}>
               Ready to showcase your projects?
             </Text>
-            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#FF6B6B', paddingHorizontal: 40, paddingVertical: 18, borderRadius: 12 }}>
+            <TouchableOpacity onPress={handleLogin} style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#FF6B6B', paddingHorizontal: 40, paddingVertical: 18, borderRadius: 12 }}>
               <Text style={{ fontSize: 20, fontWeight: '600', color: '#FFF' }}>Get Started</Text>
               <Ionicons name="arrow-forward" size={20} color="#fff" style={{ marginLeft: 8 }} />
             </TouchableOpacity>

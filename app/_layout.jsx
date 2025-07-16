@@ -4,6 +4,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useCallback, useEffect } from 'react';
 import '../global.css';
 import {ThemeProvider} from '../context/ColorMode';
+import AppwriteProvider from '../context/appwriteContext'
 
 export default function RootLayout() {
   const [fontsLoaded, error] = useFonts({
@@ -33,6 +34,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider>
+      <AppwriteProvider>
     <Stack>
       <Stack.Screen
         name="index"
@@ -47,12 +49,25 @@ export default function RootLayout() {
         }}
       />
       <Stack.Screen
+        name="oauth-redirect"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="screens"
         options={{
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="ShowCaseView"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
+    </AppwriteProvider>
     </ThemeProvider>
   );
 }

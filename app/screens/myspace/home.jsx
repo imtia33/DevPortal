@@ -26,7 +26,7 @@ const Home = () => {
   }, [showTabBar])
 
   return (
-    <View style={{ backgroundColor: theme.screenBackground, height: '100%', width: '100%', borderTopWidth: 1, borderTopColor: 'rgb(227, 223, 223)' }}>
+    <View style={{ flex: 1, backgroundColor: theme.firstTabBackground, borderTopWidth: 0.5, borderTopColor: theme.borderTopColor }}>
      
     </View>
   )

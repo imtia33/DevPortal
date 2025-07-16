@@ -1,100 +1,186 @@
-import React from "react";
+import React, { memo, useMemo, useCallback } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { useTheme } from "../context/ColorMode";
 import { FontAwesome } from "@expo/vector-icons";
+import { router } from "expo-router";
 
-const ShowoffCard = ({ project, onPress }) => {
+const ShowCaseItem = ({ project, onPress }) => {
   const { theme } = useTheme();
 
-  const maxVisibleTags = 3;
-  const visibleTags = project.tags?.slice(0, maxVisibleTags) || [];
-  const remainingTagsCount = (project.tags?.length || 0) - maxVisibleTags;
-  const hasMoreTags = remainingTagsCount > 0;
+  // Memoize parsed tags to prevent recalculation
+  const parsedTags = useMemo(() => {
+    if (typeof project.tags === "string") {
+      try {
+        return JSON.parse(project.tags);
+      } catch (e) {
+        return [];
+      }
+    } else if (Array.isArray(project.tags)) {
+      return project.tags;
+    }
+    return [];
+  }, [project.tags]);
+
+  // Memoize visible tags
+  const { visibleTags, remainingTagsCount, hasMoreTags } = useMemo(() => {
+    const maxVisibleTags = 3;
+    const visibleTags = parsedTags.slice(0, maxVisibleTags);
+    const remainingTagsCount = parsedTags.length - maxVisibleTags;
+    const hasMoreTags = remainingTagsCount > 0;
+    return { visibleTags, remainingTagsCount, hasMoreTags };
+  }, [parsedTags]);
+
+  // Memoize the onPress handler
+  const handlePress = useCallback(() => {
+    router.push({ pathname: "/ShowCaseView", params: { id: project.id } });
+  }, [project.id]);
+
+  
+  const containerStyle = useMemo(() => ({
+    borderRadius: 16,
+    overflow: "hidden",
+    marginVertical: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
+    borderWidth: 1,
+    width: 350,
+    height: 370,
+    backgroundColor: theme.cardBackground,
+    borderColor: theme.borderTopColor,
+  }), [theme.cardBackground, theme.borderTopColor]);
+
+  const imageContainerStyle = useMemo(() => ({
+    padding: 10,
+    borderRadius: 10,
+  }), []);
+
+  const imageStyle = useMemo(() => ({
+    width: "100%",
+    height: 180,
+    borderRadius: 10,
+  }), []);
+
+  const contentStyle = useMemo(() => ({
+    padding: 12,
+    flex: 1,
+  }), []);
+
+  const titleContainerStyle = useMemo(() => ({
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: 4,
+  }), []);
+
+  const titleStyle = useMemo(() => ({
+    fontSize: 20,
+    flex: 1,
+    marginRight: 8,
+    color: theme.focusedText,
+  }), [theme.focusedText]);
+
+  const starsContainerStyle = useMemo(() => ({
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    borderWidth: 0.5,
+    padding: 10,
+    borderRadius: 10,
+    borderColor: 'rgba(95, 91, 91, 0.7)',
+  }), []);
+
+  const starsTextStyle = useMemo(() => ({
+    fontSize: 14,
+    color: theme.focusedText,
+  }), [theme.focusedText]);
+
+  const taglineStyle = useMemo(() => ({
+    fontSize: 14,
+    marginTop: 4,
+    lineHeight: 20,
+    color: theme.focusedText,
+  }), [theme.focusedText]);
+
+  const tagsContainerStyle = useMemo(() => ({
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginTop: 8,
+    gap: 6,
+  }), []);
+
+  const tagStyle = useMemo(() => ({
+    fontSize: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+    textAlign: "center",
+    backgroundColor: theme.secondTabBackground,
+    color: theme.focusedText,
+    borderWidth: 0.4,
+  }), [theme.secondTabBackground, theme.focusedText]);
+
+  const moreTagsStyle = useMemo(() => ({
+    fontSize: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+    textAlign: "center",
+    backgroundColor: theme.secondTabBackground,
+    color: theme.focusedText,
+    fontWeight: "600",
+  }), [theme.secondTabBackground, theme.focusedText]);
+
+  const userContainerStyle = useMemo(() => ({
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 12,
+  }), []);
+
+  const avatarStyle = useMemo(() => ({
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    marginRight: 8,
+  }), []);
+
+  const usernameStyle = useMemo(() => ({
+    fontSize: 13,
+    flex: 1,
+    color: theme.focusedText,
+  }), [theme.focusedText]);
 
   return (
     <TouchableOpacity
-      onPress={() => onPress?.(project)}
+      onPress={handlePress}
       activeOpacity={0.8}
-      style={{
-        borderRadius: 16,
-        overflow: "hidden",
-        marginVertical: 8,
-        shadowColor: "#000",
-        shadowOpacity: 0.2,
-        shadowRadius: 4,
-        shadowOffset: { width: 0, height: 2 },
-        elevation: 2,
-        borderWidth: 1,
-        width: 350,
-        height: 370,
-        backgroundColor: theme.cardBackground,
-        borderColor: theme.borderTopColor,
-      }}
+      style={containerStyle}
     >
-      <View
-        style={{
-          padding: 10,
-          borderRadius: 10,
-        }}
-      >
+      <View style={imageContainerStyle}>
         <Image
           source={{ uri: project.coverImageUrl }}
-          style={{
-            width: "100%",
-            height: 180,
-            borderRadius: 10,
-          }}
+          style={imageStyle}
           resizeMode="cover"
         />
       </View>
 
-      <View
-        style={{
-          padding: 12,
-          flex: 1,
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            marginBottom: 4,
-          }}
-        >
+      <View style={contentStyle}>
+        <View style={titleContainerStyle}>
           <Text
             className="font-psemibold"
-            style={{
-              fontSize: 20,
-              flex: 1,
-              marginRight: 8,
-              color: theme.focusedText,
-            }}
+            style={titleStyle}
             numberOfLines={1}
           >
             {project.title}
           </Text>
 
-          {project.stats?.stars != null && (
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 4,
-                borderWidth:0.5,
-                padding:10,
-                borderRadius:10,
-                borderColor: 'rgba(95, 91, 91, 0.7)',
-              }}
-            >
+          {project.stars != null && (
+            <View style={starsContainerStyle}>
               <FontAwesome name="heart" size={20} color="#FD366E" />
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: theme.focusedText,
-                }}
-              >
-                {project.stats.stars}
+              <Text style={starsTextStyle}>
+                {project.stars}
               </Text>
             </View>
           )}
@@ -103,39 +189,17 @@ const ShowoffCard = ({ project, onPress }) => {
         <Text
           numberOfLines={2}
           className="font-pthin"
-          style={{
-            fontSize: 14,
-            marginTop: 4,
-            lineHeight: 20,
-            color: theme.focusedText,
-          }}
+          style={taglineStyle}
         >
           {project.tagline}
         </Text>
 
-        <View
-          style={{
-            flexDirection: "row",
-            flexWrap: "wrap",
-            marginTop: 8,
-            gap: 6,
-          }}
-        >
+        <View style={tagsContainerStyle}>
           {visibleTags.map((tag, index) => (
             <Text
               key={`${tag}-${index}`}
               className="font-psemibold"
-              style={{
-                fontSize: 12,
-                paddingHorizontal: 8,
-                paddingVertical: 4,
-                borderRadius: 12,
-                textAlign: "center",
-                backgroundColor: theme.secondTabBackground,
-                color: theme.focusedText,
-                borderWidth:0.4,
-                
-              }}
+              style={tagStyle}
             >
               {tag}
             </Text>
@@ -144,48 +208,24 @@ const ShowoffCard = ({ project, onPress }) => {
           {hasMoreTags && (
             <Text
               className="font-psemibold"
-              style={{
-                fontSize: 12,
-                paddingHorizontal: 8,
-                paddingVertical: 4,
-                borderRadius: 12,
-                textAlign: "center",
-                backgroundColor: theme.secondTabBackground,
-                color: theme.focusedText,
-                fontWeight: "600",
-              }}
+              style={moreTagsStyle}
             >
               +{remainingTagsCount}
             </Text>
           )}
         </View>
 
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginTop: 12,
-          }}
-        >
+        <View style={userContainerStyle}>
           <Image
-            source={{ uri: project.owner.avatarUrl }}
-            style={{
-              width: 24,
-              height: 24,
-              borderRadius: 12,
-              marginRight: 8,
-            }}
+            source={{ uri: project.avatarUrl }}
+            style={avatarStyle}
           />
           <Text
             className="font-psemibold"
-            style={{
-              fontSize: 13,
-              flex: 1,
-              color: theme.focusedText,
-            }}
+            style={usernameStyle}
             numberOfLines={1}
           >
-            {project.owner.username}
+            {project.username}
           </Text>
         </View>
       </View>
@@ -193,4 +233,4 @@ const ShowoffCard = ({ project, onPress }) => {
   );
 };
 
-export default ShowoffCard;
+export default memo(ShowCaseItem);

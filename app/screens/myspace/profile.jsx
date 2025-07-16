@@ -24,7 +24,7 @@ const Profile = () => {
   }, [showTabBar])
 
   return (
-    <View style={{ backgroundColor: theme.screenBackground, height: '100%', width: '100%', borderTopWidth: 1, borderTopColor: 'rgb(227, 223, 223)' }}>
+    <View style={{ flex: 1, backgroundColor: theme.firstTabBackground, borderTopWidth: 1, borderTopColor: theme.borderTopColor }}>
       <SafeAreaView>
         
         <View style={{ flex: 1, justifyContent: isDesktop ? 'center' : undefined, alignItems: isDesktop ? 'center' : undefined }}>

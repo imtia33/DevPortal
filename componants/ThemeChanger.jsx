@@ -51,7 +51,7 @@ const ThemeChanger = ({ focused, onToggle }) => {
       style={{
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: "rgba(0, 0, 0, 0.15)",
+        backgroundColor: "rgba(0, 0, 0, 0.13)",
         borderRadius: 8,
         padding: 1.5,
         position: "relative",

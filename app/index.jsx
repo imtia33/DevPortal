@@ -4,18 +4,21 @@ import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { LinearGradient } from "expo-linear-gradient";
+import { getCurrentUser } from '../backend/appwrite';
+import { useAppwriteContext } from '../context/appwriteContext';
+import Logo from '../componants/Logo';
 
 export default function LoadingScreen() {
   const [fadeAnim] = useState(new Animated.Value(0));
   const [scaleAnim] = useState(new Animated.Value(0.8));
+  const {isLogged, loading} = useAppwriteContext();
 
-  const [isUserReady, setIsUserReady] = useState(null);
+  
 
   useEffect(() => {
-    // Animate the loading screen in
     Animated.parallel([
       Animated.timing(fadeAnim, {
-        toValue: 1,
+        toValue: 1,  
         duration: 800,
         useNativeDriver: true,
       }),
@@ -25,22 +28,19 @@ export default function LoadingScreen() {
         useNativeDriver: true,
       }),
     ]).start();
-    setIsUserReady(true)
+    
   }, []);
 
   useEffect(() => {
-    if (isUserReady !== null) {
-
-      setTimeout(() => {
-        if (isUserReady) {
-          router.replace('/screens'); 
-          
-        } else {
-          router.replace('/Introduction'); 
-        }
-      }, 2000);
+    // Wait for the loading to complete before making redirect decision
+    if (!loading) {
+      if (isLogged) {
+        router.replace('/screens');
+      } else {
+        router.replace('/Introduction');
+      }
     }
-  }, [isUserReady]);
+  }, [isLogged, loading]);
 
   return (
     <View
@@ -73,47 +73,11 @@ export default function LoadingScreen() {
           }}>
             <FontAwesome5 name="gitkraken" size={30} color="black" />
           </View>
-          {Platform.OS === "android" ? (
-            <Text
-              className="text-[#FD366E] font-bold text-4xl tracking-wide"
-              style={{
-                color: "#FD366E",
-                fontWeight: "bold",
-                fontSize: 32,
-                letterSpacing: 1.5,
-              }}
-            >
-              DevPortal
-            </Text>
-          ) : (
-            <Text
-              className="
-                bg-gradient-to-r
-                from-[#FF6B6B]
-                via-[#FD366E]
-                to-[#FFB86C]
-                bg-clip-text
-                text-transparent
-                font-bold
-                text-4xl
-                tracking-wide
-              "
-              style={{
-                // background: "linear-gradient(90deg, #FF6B6B, #FD366E, #FFB86C)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                fontWeight: "bold",
-                fontSize: 32,
-                letterSpacing: 1.5,
-              }}
-            >
-              DevPortal
-            </Text>
-          )}
-
+          {/* <View>
+          <Logo/>
+          </View> */}
         </View>
 
-        {/* Loading indicator */}
         <View style={{ alignItems: 'center', gap: 16 }}>
           <View style={{ flexDirection: 'row', gap: 8 }}>
             <LoadingDot delay={0} />
