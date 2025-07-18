@@ -36,7 +36,7 @@ function MainNavBar({ state, descriptors, navigation, onHover, myspaceDisabled }
   useEffect(() => {
     Animated.timing(navBarAnim, {
       toValue: showTabBar ? 67 : 0,
-      duration: 300,
+      duration: 150,
       useNativeDriver: false, // width cannot use native driver
     }).start();
   }, [showTabBar]);

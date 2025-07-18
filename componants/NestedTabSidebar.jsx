@@ -30,7 +30,7 @@ function NestedTabSidebar({
   useEffect(() => {
     Animated.timing(widthAnim, {
       toValue: showTabBar ? (isDesktop ? desktopWidth : mobileWidth) : 0,
-      duration: 300,
+      duration: 150,
       useNativeDriver: false,
     }).start()
   }, [showTabBar, isDesktop, width])
