@@ -5,14 +5,9 @@ import React, {
   useImperativeHandle,
   useMemo,
   useState,
+  useRef,
 } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  withTiming,
-} from 'react-native-reanimated';
+import { View, Text, StyleSheet, Animated } from 'react-native';
 
 // Remove PropTypes import to fix bundling error
 // import PropTypes from 'prop-types';
@@ -157,34 +152,44 @@ const RotatingText = forwardRef((props, ref) => {
     delay,
     textKey,
   }) => {
-    const translateY = useSharedValue(100);
-    const opacity = useSharedValue(0);
+    const translateY = useRef(new Animated.Value(100)).current;
+    const opacity = useRef(new Animated.Value(0)).current;
 
-    const animatedStyle = useAnimatedStyle(() => {
+    const animatedStyle = useMemo(() => {
       return {
-        transform: [{ translateY: translateY.value }],
-        opacity: opacity.value,
+        transform: [{ translateY }],
+        opacity,
       };
-    });
+    }, [translateY, opacity]);
 
     useEffect(() => {
-      translateY.value = 100;
-      opacity.value = 0;
+      // Reset values
+      translateY.setValue(100);
+      opacity.setValue(0);
 
       const timer = setTimeout(() => {
-        translateY.value = withSpring(0, {
+        // Animate with spring for translateY
+        Animated.spring(translateY, {
+          toValue: 0,
+          useNativeDriver: true,
           damping: 25,
           stiffness: 300,
-        });
-        opacity.value = withTiming(1, { duration: 300 });
+        }).start();
+
+        // Animate with timing for opacity
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }).start();
       }, delay);
 
       return () => clearTimeout(timer);
-    }, [textKey, delay]);
+    }, [textKey, delay, translateY, opacity]);
 
     return (
       <Animated.View style={[animatedStyle]}>
-        <Text style={[styles.character, characterStyle]}>{char}</Text>
+        <Text className="font-psemibold" style={[styles.character, characterStyle]}>{char}</Text>
       </Animated.View>
     );
   };
@@ -224,6 +229,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
+    overflow:'hidden'
   },
   textContainer: {
     flexDirection: 'row',
@@ -246,3 +252,18 @@ const styles = StyleSheet.create({
 RotatingText.displayName = 'RotatingText';
 
 export default RotatingText;
+
+/*
+            <RotatingText
+              style={{ alignSelf: 'center' }}
+              ref={rotatingTextRef}
+              texts={texts}
+              loop
+              auto
+              rotationInterval={2500}
+              staggerDuration={100}
+              staggerFrom="first"
+              splitBy="characters"
+              characterStyle={{ fontSize: 24, color: 'rgb(240, 21, 87)'}}
+            /> 
+*/

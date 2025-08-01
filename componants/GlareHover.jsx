@@ -118,7 +118,6 @@ const GlareHover = ({
     style,
   ];
 
-  // Web: use divs and hover events
   if (Platform.OS === "web") {
     return (
       <div

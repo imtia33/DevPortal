@@ -2,8 +2,34 @@ import { View, TouchableOpacity, Animated, Platform } from "react-native";
 import { useRef, useEffect, useCallback } from "react";
 import { Entypo, Feather } from "@expo/vector-icons";
 
-const ThemeChanger = ({ focused, onToggle }) => {
+const ThemeChanger = ({ focused, onToggle, compact }) => {
   const isLight = focused === "light";
+
+  if (compact) {
+    // Compact mode: just a single icon button
+    return (
+      <TouchableOpacity
+        onPress={() => onToggle(isLight ? "dark" : "light")}
+        style={{
+          padding: 6,
+          borderRadius: 7,
+          width: 36,
+          height: 33,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "rgba(0,0,0,0.13)",
+        }}
+        accessibilityLabel="Toggle theme"
+      >
+        {isLight ? (
+          <Feather name="moon" size={18} color="#888" />
+        ) : (
+          <Entypo name="light-down" size={20} color="#fff" />
+        )}
+      </TouchableOpacity>
+    );
+  }
+
   const slideAnim = useRef(new Animated.Value(isLight ? 0 : 1)).current;
   const lightScale = useRef(new Animated.Value(1)).current;
   const darkScale = useRef(new Animated.Value(1)).current;

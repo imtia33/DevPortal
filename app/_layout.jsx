@@ -67,6 +67,13 @@ export default function RootLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="Test"
+        options={{
+          headerShown: false,
+        }}
+      />
+      
     </Stack>
     </AppwriteProvider>
     </ThemeProvider>

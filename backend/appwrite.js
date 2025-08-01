@@ -58,6 +58,7 @@ export const login = async () => {
     if (Platform.OS === 'web') {
      
       window.location.href = loginUrl;
+      
       if (result.type === 'success' && result.url) {
         // Extract credentials from OAuth redirect URL
         const url = new URL(result.url);

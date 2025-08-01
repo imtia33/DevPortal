@@ -31,7 +31,18 @@
     },
     "plugins": [
       "expo-router",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-router",
+        {
+          "origin": "https://acme.com",
+          "asyncRoutes": {
+            "web": true,
+            "android": false,
+            "default": "development"
+          }
+        }
+      ]
     ]
   }
 }

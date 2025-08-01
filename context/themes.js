@@ -1,5 +1,6 @@
 export const lightTheme={
     mode: 'light',
+    primary: 'rgb(235, 235, 227)',
     firstTabBackground:'#fff',
     secondTabBackground:'rgb(238, 242, 242)',
     focusedText:'rgb(0, 0, 0)',
@@ -13,17 +14,26 @@ export const lightTheme={
     mainIconColor:'#FD366E',
     opposite:'#000',
     borderTopColor:'rgb(227, 223, 223)',
-    cardBackground:'#EDEDF0'
-
+    cardBackground:'#F4F4F7',
+    background: '#fff',
+    headerBackground: 'rgba(255,255,255,0.95)',
+    borderColor: '#E5E7EB',
+    text: '#111827',
+    secondaryText: '#6B7280',
+    accent: '#FF6B6B',
+    accent2: '#FD366E',
+    buttonText: '#fff',
+    outline: '#D1D5DB'
 }
 export const darkTheme={
     mode: 'dark',
+    primary: 'rgb(0, 0, 0)',
     firstTabBackground:'rgb(0, 0, 0)',
     secondTabBackground:'rgb(14, 14, 14)',
     focusedText:'rgb(255, 255, 255)',
     unfocusedText:'rgb(105, 105, 105)',
     focusedIcon:'rgb(255, 255, 255)',
-    focusedIconBackground:'#FD366E',
+    focusedIconBackground:'rgba(244, 21, 84, 0.9)',
     unfocusedIcon:'rgb(229, 228, 228)',
     unfocusedIconBackground:'rgba(222, 222, 222, 0.7)',
     screenBackground:'rgb(28, 28, 28)',
@@ -32,6 +42,15 @@ export const darkTheme={
     opposite:"#fff",
     borderTopColor: 'rgb(81, 80, 80)',
     cardBorder:'rgb(81, 80, 80)',
-    cardBackground:'#1e1e1e'
-
+    cardBackground:'#1e1e1e',
+    
+    background: '#18181B',
+    headerBackground: 'rgba(24,24,27,0.95)',
+    borderColor: '#27272A',
+    text: '#F3F4F6',
+    secondaryText: '#9CA3AF',
+    accent: '#FF6B6B',
+    accent2: '#FD366E',
+    buttonText: '#fff',
+    outline: '#44403C'
 }

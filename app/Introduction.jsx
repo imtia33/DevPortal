@@ -1,6 +1,3 @@
-// Optimized version of your component
-// Focus: reduced nesting, better layout structure, and less DOM bloat on web
-
 import React, { useRef } from 'react';
 import {
   View,
@@ -12,12 +9,14 @@ import {
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import RotatingText from '../componants/RotatingText';
-import { Ionicons, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
-import FeaturesSection from "../componants/FeaturesSection";
-import Footer from '../componants/FooterNote';
+
+import MagicBento from '../componants/MagicBento';
 import { login } from "../backend/appwrite";
 import { router } from 'expo-router';
+import Logo from '../componants/Logo';
+import { useTheme } from "../context/ColorMode";
+import ThemeChanger from '../componants/ThemeChanger';
+
 
 const { width } = Dimensions.get('window');
 const isDesktop = width >= 1024;
@@ -25,19 +24,8 @@ const isTablet = width >= 768 && width < 1024;
 const isMobile = width < 768;
 
 export default function HomeScreen() {
-  const rotatingTextRef = useRef(null);
-  const texts = [
-    'Show off Your Project',
-    'Inspire Others',
-    'Colaborate with devs',
-    'Share Your Knowledge',
-    'Build Your Portfolio',
-    'Connect with Developers',
-    'Showcase Your Skills',
-    'Learn from Others',
-  ];
+  const { theme, toggleTheme } = useTheme();
 
-  // Fix: loginWithGithub handles navigation internally, so don't navigate here
   const handleLogin = async () => {
     try {
       const res = await login();
@@ -49,114 +37,157 @@ export default function HomeScreen() {
     }
   };
 
+  // Theme-based styles
+  const needs = {
+    Textcolor: theme.text,
+    background: theme.background,
+    cardBackground: theme.cardBackground,
+    accent: theme.accent2,
+    buttonText: theme.buttonText,
+    borderColor: theme.borderColor,
+  };
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#0A0A0A' }}>
-      <StatusBar style="light" />
-
-      {/* Header */}
-      <View
-        style={{
-          height: 72,
-          borderBottomWidth: 1,
-          borderBottomColor: '#1A1A1A',
-          backgroundColor: 'rgba(10,10,10,0.95)',
-          ...(Platform.OS === 'web' && { backdropFilter: 'blur(20px)' }),
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          paddingHorizontal: isDesktop ? 48 : 20,
-        }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-          <View style={{ width: 36, height: 36, backgroundColor: '#FF6B6B', borderRadius: 8, alignItems: 'center', justifyContent: 'center' }}>
-            <FontAwesome5 name="gitkraken" size={30} color="black" />
-          </View>
-          <Text style={{ fontSize: 20, fontWeight: '700', color: '#FFFFFF' }}>DevPortal</Text>
-        </View>
-        
-        
-        <TouchableOpacity onPress={handleLogin} style={{ paddingHorizontal: 20, paddingVertical: 10, backgroundColor: '#FD366E', borderRadius: 8 }}>
-          <Text style={{ fontSize: 16, fontWeight: '600', color: '#FFFFFF' }}>Get Started</Text>
-        </TouchableOpacity>
-      </View>
-
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{ paddingVertical: isDesktop ? 120 : 80, paddingHorizontal: isDesktop ? 48 : 20, alignItems: 'center' }}>
-          <View style={{ maxWidth: 1200, alignSelf: 'center',alignItems:'center' }}>
-            <Text style={{ fontSize: isDesktop ? 56 : isMobile ? 36 : 48, fontWeight: '800', color: '#FFF', textAlign: isDesktop ? 'left' : 'center', marginBottom: 24 }}>
-              Build your developer{'\n'}
-              <Text style={{ color: '#FF6B6B' }}>knowledge</Text>
-            </Text>
-            <RotatingText
-              style={{ alignSelf: 'center' }}
-              ref={rotatingTextRef}
-              texts={texts}
-              loop
-              auto
-              rotationInterval={2500}
-              staggerDuration={100}
-              staggerFrom="first"
-              splitBy="characters"
-              characterStyle={{ fontSize: 24, fontWeight: 'bold', color: '#FD366E' }}
-            />
-            <Text  style={{ fontSize: isDesktop ? 20 : 18, color: '#9CA3AF', textAlign: isDesktop ? 'left' : 'center', marginVertical: 30 }}>
-              Join the community where code meets collaboration.
-            </Text>
-            <View style={{ flexDirection: isMobile ? 'column' : 'row', gap: 16, alignItems: 'center' }}>
-              <TouchableOpacity onPress={handleLogin} style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#FF6B6B', paddingHorizontal: 32, paddingVertical: 16, borderRadius: 12 }}>
-                <Text style={{ fontSize: 18, fontWeight: '600', color: '#FFF' }}>Start Showcasing</Text>
-                <Ionicons name="arrow-forward" size={20} color="#fff" style={{ marginLeft: 8 }} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={()=>{router.replace('/screens')}} style={{ paddingHorizontal: 32, paddingVertical: 16, borderRadius: 12, borderWidth: 1, borderColor: '#333' }}>
-                <Text style={{ fontSize: 18, fontWeight: '500', color: '#FFF' }}>Browse Projects</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
+    <View style={{ flex: 1, backgroundColor: needs.background }}>
+      <StatusBar style={theme.mode === 'dark' ? 'light' : 'dark'} />
+      <SafeAreaView style={{ flex: 1, width: isDesktop ? '60%' : '100%', alignSelf: 'center', zIndex: 1,allignItems:'center' }}>
+        {/* Header */}
         <View
           style={{
-            paddingVertical: isDesktop ? 120 : 80,
+            height: 72,
+            backgroundColor: theme.headerBackground,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
             paddingHorizontal: isDesktop ? 48 : 20,
-            backgroundColor: '#0F0F0F',
-          }}
-        >
-          <View
-            style={{
-              maxWidth: 1200,
-              alignSelf: 'center',
-              width: '100%',
-            }}
-          >
-            <Text
-              style={{
-                fontSize: isDesktop ? 40 : 32,
-                fontWeight: '700',
-                color: '#FFFFFF',
-                textAlign: 'center',
-                marginBottom: 16,
-                lineHeight: isDesktop ? 48 : 40,
-              }}
-            >
-              Everything you need to get started with your developer journey
-            </Text>
-
-            <FeaturesSection/>
+            ...(isMobile ? {
+              borderRadius: 0,
+              borderBottomWidth: 0,
+              marginTop: 0,
+              marginBottom: 0,
+            } : {
+              borderBottomWidth: 1,
+              borderBottomColor: needs.borderColor,
+              borderRadius: 16,
+              marginTop: 8,
+              marginBottom: 8,
+            })
+          }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            <Logo height={40} width={40} />
+            <Text className="font-Lsemi" style={{ fontSize: 22, color: needs.Textcolor, fontWeight: 'bold', marginLeft: 6 }}>Axhibit</Text>
           </View>
-        </View>
-
-        <View style={{ paddingVertical: isDesktop ? 120 : 80, paddingHorizontal: isDesktop ? 48 : 20 }}>
-          <View style={{ maxWidth: 600, alignSelf: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: isDesktop ? 40 : 32, fontWeight: '700', color: '#FFF', textAlign: 'center', marginBottom: 16 }}>
-              Ready to showcase your projects?
-            </Text>
-            <TouchableOpacity onPress={handleLogin} style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#FF6B6B', paddingHorizontal: 40, paddingVertical: 18, borderRadius: 12 }}>
-              <Text style={{ fontSize: 20, fontWeight: '600', color: '#FFF' }}>Get Started</Text>
-              <Ionicons name="arrow-forward" size={20} color="#fff" style={{ marginLeft: 8 }} />
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            <ThemeChanger
+              focused={theme.mode}
+              onToggle={mode => toggleTheme()}
+              compact
+            />
+            <TouchableOpacity
+              onPress={handleLogin}
+              style={{
+                paddingHorizontal: 18,
+                paddingVertical: 9,
+                borderRadius: 8,
+                minWidth: 100,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: needs.accent,
+                shadowColor: needs.accent,
+                shadowOpacity: 0.18,
+                shadowRadius: 8,
+                shadowOffset: { width: 0, height: 2 },
+                marginLeft: 8,
+              }}>
+              <Text className="font-psemibold" style={{ fontSize: 15, color: needs.buttonText, fontWeight: '600' }}>Sign Up</Text>
             </TouchableOpacity>
           </View>
         </View>
-        <Footer/>
-      </ScrollView>
-      
-    </SafeAreaView>
+        {/* Main Content */}
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+          }}
+          style={{ backgroundColor: 'transparent' }}
+          showsVerticalScrollIndicator={false}
+        >
+          <View
+            style={{
+              paddingVertical: isDesktop ? 100 : 60,
+              paddingHorizontal: isDesktop ? 48 : 20,
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+            }}
+          >
+            <View
+              style={{
+                maxWidth: 900,
+                alignSelf: 'center',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+              }}
+            >
+              <Text
+                className="font-psemibold"
+                style={{
+                  fontSize: isDesktop ? 44 : 32,
+                  textAlign: 'center',
+                  marginBottom: 18,
+                  color: needs.Textcolor,
+                  fontWeight: 'bold',
+                  letterSpacing: 0.5,
+                  alignSelf: 'center',
+                }}
+              >
+                Build your developer{Platform.OS === 'web' ? <br /> : '\n'}
+                <Text
+                  style={{
+                    fontSize: isDesktop ? 44 : 32,
+                    color: needs.accent,
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                  }}
+                >
+                  knowledge
+                </Text>
+              </Text>
+              <Text
+                style={{
+                  fontSize: isDesktop ? 20 : 16,
+                  color: theme.secondaryText,
+                  textAlign: 'center',
+                  marginBottom: 32,
+                  marginTop: 2,
+                  fontWeight: '400',
+                  maxWidth: 600,
+                  alignSelf: 'center',
+                }}
+              >
+                Discover, share, and showcase your projects and skills. Join a vibrant community of developers and grow your knowledge together.
+              </Text>
+            </View>
+          </View>
+          {/* Bento Section */}
+          <View
+            style={{
+              marginBottom: 40,
+              alignSelf: 'center',
+              width: '100%',
+              alignItems: 'center',
+              justifyContent: 'center',
+              display: 'flex',
+            }}
+          >
+            
+            <MagicBento theme={theme} />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </View>
   );
 }
