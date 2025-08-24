@@ -2,7 +2,7 @@ import { View, TouchableOpacity, Animated, Platform } from "react-native";
 import { useRef, useEffect, useCallback } from "react";
 import { Entypo, Feather } from "@expo/vector-icons";
 
-const ThemeChanger = ({ focused, onToggle, compact }) => {
+const ThemeChanger = ({ focused, onToggle, compact,showBg }) => {
   const isLight = focused === "light";
 
   if (compact) {
@@ -13,18 +13,19 @@ const ThemeChanger = ({ focused, onToggle, compact }) => {
         style={{
           padding: 6,
           borderRadius: 7,
-          width: 36,
-          height: 33,
+          width: 46,
+          height: 43,
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "rgba(0,0,0,0.13)",
+          backgroundColor: showBg ? "rgba(0,0,0,0.13)" : undefined,
         }}
+        hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
         accessibilityLabel="Toggle theme"
       >
         {isLight ? (
-          <Feather name="moon" size={18} color="#888" />
+          <Feather name="moon" size={20} color="rgb(0, 0, 0)" />
         ) : (
-          <Entypo name="light-down" size={20} color="#fff" />
+          <Entypo name="light-down" size={22} color="#fff" />
         )}
       </TouchableOpacity>
     );
@@ -112,6 +113,7 @@ const ThemeChanger = ({ focused, onToggle, compact }) => {
             alignItems: "center",
             justifyContent: "center",
           }}
+          hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
           {...hoverProps("light")}
           onPress={() => {
             if (!isLight) onToggle("light");
@@ -137,6 +139,7 @@ const ThemeChanger = ({ focused, onToggle, compact }) => {
             alignItems: "center",
             justifyContent: "center",
           }}
+          hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
           {...hoverProps("dark")}
           onPress={() => {
             if (isLight) onToggle("dark");

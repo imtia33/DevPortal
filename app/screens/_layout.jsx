@@ -1,6 +1,6 @@
 "use client"
 
-import { Tabs } from "expo-router"
+import { router, Tabs } from "expo-router"
 import { View, Text, Platform, Animated, Easing, useWindowDimensions } from "react-native"
 import { TouchableOpacity } from "react-native"
 import { MaterialIcons, Entypo, FontAwesome5 } from "@expo/vector-icons"
@@ -9,7 +9,6 @@ import { TabBarContext } from "../../context/TabBarContext"
 import { useTheme } from "../../context/ColorMode"
 import ThemeChanger from "../../componants/ThemeChanger"
 import { SafeAreaView } from "react-native-safe-area-context"
-import { StatusBar } from "expo-status-bar"
 import { useAppwriteContext } from "../../context/appwriteContext"
 import { login,logout } from "../../backend/appwrite"
 import Logo from "../../componants/Logo"
@@ -148,6 +147,7 @@ function MainNavBar({ state, descriptors, navigation, onHover, myspaceDisabled }
         if(currentTab !== "explore"){
           navigation.navigate("explore");
         }
+        router.replace('/log-in')
       }else{
         console.error("Logout failed");
       }
@@ -390,10 +390,7 @@ export default function Layout() {
   return (
     <TabBarContext.Provider value={{ showTabBar, setShowTabBar: safeSetShowTabBar }}>
       <SafeAreaView style={{ flex: 1, backgroundColor: theme.firstTabBackground }}>
-      <StatusBar
-        style={theme.mode === 'dark' ? 'light' : 'dark'}
-        translucent={true}
-      />
+      
        
         {hoverInfo.label && Platform.OS === "web" && isDesktop && (
           <View
@@ -450,7 +447,7 @@ export default function Layout() {
       {/* Always visible header bar */}
       <View
         style={{
-          height: showTabBar?height * 0.04:height * 0.07,
+          height: showTabBar?height * 0.07:height * 0.07,
           backgroundColor: theme.firstTabBackground,
           zIndex: 1000,
           flexDirection: 'row',
@@ -474,15 +471,10 @@ export default function Layout() {
             }}
           >
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FontAwesome5 name="gitkraken" size={30} color={theme.mainIconColor} />
-              <View
-              //  style={{
-              //   width:100,
-              //   height:25,
-              //  }}
-              >
-              <Logo/>
-              </View>
+              
+              
+              <Logo height={40}/>
+              <Text className="font-pregular text-xl" style={{color:theme.opposite }}>Axhibit</Text>
             </View>
           </View>
         )}

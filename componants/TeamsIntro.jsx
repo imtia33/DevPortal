@@ -10,7 +10,6 @@ import {
   TextInput,
   Animated,
   Dimensions,
-  StatusBar,
   Platform,
   Image,
 } from "react-native"
@@ -312,7 +311,6 @@ export default function GitHubProjectCard({ theme: propTheme = {} }) {
       maxHeight: 380,
       position: 'relative',
     }}>
-      <StatusBar barStyle="dark-content" backgroundColor={accent5} />
       {/* Popup Message */}
       {showPopup && (
         <View style={{

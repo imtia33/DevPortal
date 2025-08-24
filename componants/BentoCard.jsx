@@ -1,5 +1,6 @@
-import { Platform, View, Text } from "react-native";
+import { Platform, View, Text,useWindowDimensions } from "react-native";
 import React from "react";
+
 
 const BentoCard = ({
   card,
@@ -9,6 +10,9 @@ const BentoCard = ({
   theme,
   children,
 }) => {
+  const { width } = useWindowDimensions()
+  const isDesktop = width >= 768
+  
   if (Platform.OS === "web") {
     // Web: Use divs and CSS classes
     return (
@@ -27,6 +31,7 @@ const BentoCard = ({
             : '0 2px 16px 0 rgba(0,0,0,0.25)',
           minWidth: 180,
           minHeight: 280,
+          padding:20
         }}
         ref={cardRef}
       >
@@ -79,22 +84,22 @@ const BentoCard = ({
             {card.icon && (
               <View style={{ marginBottom: 8, minHeight: 40 }}>
                 {typeof card.icon === 'string' ? (
-                  <Text style={{ fontSize: 36, lineHeight: 40 }}>{card.icon}</Text>
+                  <Text style={{ fontSize: 36, lineHeight: 40, color: theme?.text || theme?.focusedText || "#fff" }}>{card.icon}</Text>
                 ) : (
                   card.icon
                 )}
               </View>
             )}
             <View style={{ marginBottom: 4 }}>
-              <Text style={{ fontWeight: "500", fontSize: 18 }}>
+              <Text style={{ fontWeight: "500", fontSize: 18, color: theme?.text || theme?.focusedText || "#fff" }}>
                 {card.label}
               </Text>
             </View>
             <View>
-              <Text style={{ fontWeight: "500", fontSize: 18, marginBottom: 4 }}>
+              <Text style={{ fontWeight: "500", fontSize: 18, marginBottom: 4, color: theme?.text || theme?.focusedText || "#fff" }}>
                 {card.title}
               </Text>
-              <Text style={{ fontWeight: "400", fontSize: 15, opacity: 0.9 }}>
+              <Text style={{ fontWeight: "400", fontSize: 15, opacity: 0.9, color: theme?.text || theme?.focusedText || "#fff" }}>
                 {card.description}
               </Text>
             </View>

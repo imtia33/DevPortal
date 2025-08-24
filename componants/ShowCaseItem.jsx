@@ -1,11 +1,13 @@
 import React, { memo, useMemo, useCallback } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { useTheme } from "../context/ColorMode";
+import { useAppwriteContext } from "../context/appwriteContext";
 import { FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
 
 const ShowCaseItem = ({ project, onPress }) => {
   const { theme } = useTheme();
+  const { setCachedShowcase } = useAppwriteContext();
 
   // Memoize parsed tags to prevent recalculation
   const parsedTags = useMemo(() => {
@@ -32,8 +34,12 @@ const ShowCaseItem = ({ project, onPress }) => {
 
   // Memoize the onPress handler
   const handlePress = useCallback(() => {
-    router.push({ pathname: "/ShowCaseView", params: { id: project.id } });
-  }, [project.id]);
+    // Cache the project data for efficient navigation
+    setCachedShowcase(project.$id || project.id, project);
+    
+    // Navigate with clean URL - only ID in params
+    router.push(`/ShowCaseView?id=${project.$id || project.id}`);
+  }, [project, setCachedShowcase]);
 
   
   const containerStyle = useMemo(() => ({
@@ -195,15 +201,19 @@ const ShowCaseItem = ({ project, onPress }) => {
         </Text>
 
         <View style={tagsContainerStyle}>
-          {visibleTags.map((tag, index) => (
-            <Text
-              key={`${tag}-${index}`}
-              className="font-psemibold"
-              style={tagStyle}
-            >
-              {tag}
-            </Text>
-          ))}
+          {visibleTags.map((tag, index) => {
+            // Handle both old string format and new object format
+            const tagName = typeof tag === 'string' ? tag : tag.name || tag;
+            return (
+              <Text
+                key={`${tagName}-${index}`}
+                className="font-psemibold"
+                style={tagStyle}
+              >
+                {tagName}
+              </Text>
+            );
+          })}
 
           {hasMoreTags && (
             <Text

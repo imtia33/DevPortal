@@ -58,8 +58,8 @@ const cardData = [
   },
   {
     color: "rgba(6, 0, 16, 1)",
-    title: "Starred Projects",
-    description: "Show off your favorite and starred repositories.",
+    title: "Favourite Projects",
+    description: "Track your favourite opensource project updates.",
     label: "Starred",
     icon: (<Octicons name="star" size={36} color="#FD366E" />),
   },
@@ -331,7 +331,7 @@ const MagicBento = ({
             gap: 1em;
             padding: 1.5em;
             @media (max-width: 700px) {
-              padding:0.2em;
+              padding:0.5em;
             }
             max-width: 70em;
             font-size: clamp(1rem, 0.9rem + 0.5vw, 1.5rem);
@@ -342,7 +342,7 @@ const MagicBento = ({
             justify-content: space-between;
             position: relative;
             
-            min-height: 550px;
+            min-height: 350px;
             width: 100%;
             max-width: 100%;
             padding: 1.5em;

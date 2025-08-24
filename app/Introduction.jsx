@@ -7,7 +7,6 @@ import {
   Dimensions,
   Platform
 } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import MagicBento from '../componants/MagicBento';
@@ -16,6 +15,7 @@ import { router } from 'expo-router';
 import Logo from '../componants/Logo';
 import { useTheme } from "../context/ColorMode";
 import ThemeChanger from '../componants/ThemeChanger';
+import { StatusBar } from 'expo-status-bar';
 
 
 const { width } = Dimensions.get('window');
@@ -28,10 +28,7 @@ export default function HomeScreen() {
 
   const handleLogin = async () => {
     try {
-      const res = await login();
-      if(res){
-        router.replace('/screens');
-      }
+      router.push('/log-in')
     } catch (error) {
       console.error("Login failed:", error);
     }
@@ -48,13 +45,14 @@ export default function HomeScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: needs.background }}>
-      <StatusBar style={theme.mode === 'dark' ? 'light' : 'dark'} />
-      <SafeAreaView style={{ flex: 1, width: isDesktop ? '60%' : '100%', alignSelf: 'center', zIndex: 1,allignItems:'center' }}>
-        {/* Header */}
+    
+      <View style={{flex:1, backgroundColor:needs.background}}>
+      <SafeAreaView style={{ flex: 1, width: isDesktop ? '60%' : '100%', alignSelf: 'center', zIndex: 1,allignItems:'center',backgroundColor:needs.background }}>
+       
+      
         <View
           style={{
-            height: 72,
+            height: 72,   
             backgroundColor: theme.headerBackground,
             flexDirection: 'row',
             alignItems: 'center',
@@ -186,8 +184,10 @@ export default function HomeScreen() {
             
             <MagicBento theme={theme} />
           </View>
+        
         </ScrollView>
+        <StatusBar  style= {theme.mode==='dark'?'light':'dark'} />
       </SafeAreaView>
-    </View>
+      </View>
   );
 }

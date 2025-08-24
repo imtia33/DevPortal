@@ -11,16 +11,9 @@ export default function OAuthRedirect() {
   useEffect(() => {
     const createSession = async () => {
       const res = await handleOAuthRedirect();
-
-      if (res) {
-        router.replace('/screens');
-        setUser(res);
-        setIsLogged(true);
-      } else {
-        setLoginFailed(true);
-        // Optionally, you can delay before redirecting or let user retry
-        router.replace('/Introduction');
-      }
+      setUser(res);
+      setIsLogged(true);
+      router.replace('/screens');
     };
     createSession();
   }, []);

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Animated,Platform } from 'react-native';
 import { router } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
 
 import { useAppwriteContext } from '../context/appwriteContext';
 import Logo from '../componants/Logo';
 import { useTheme } from '../context/ColorMode';
+import { StatusBar } from 'expo-status-bar';
 
 export default function LoadingScreen() {
   const { theme } = useTheme();
@@ -35,7 +35,6 @@ export default function LoadingScreen() {
         alignItems: 'center',
       }}
     >
-      <StatusBar style="light" />
       
       
         {/* Logo */}

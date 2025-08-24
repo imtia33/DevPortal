@@ -3,6 +3,7 @@
     "name": "DevPortal",
     "slug": "DevPortal",
     "scheme": [
+      "appwrite-callback-684ac8600032f6eccf56",
       "devportal"
     ],
     "version": "1.0.0",
